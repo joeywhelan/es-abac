@@ -1,0 +1,5 @@
+{"title": "Reactor Startup Protocol", "attributes": {"departments": ["Reactor Operations"], "training": ["Core Procedures", "Radiation Safety"], "min_training": 2}}
+{"title": "Fuel Rod Handling Guidelines", "attributes": {"departments": ["Nuclear Materials"], "training": ["Fuel Handling", "Radiation Safety"], "min_training": 2}}
+{"title": "Radiation Safety Manual", "attributes": {"departments": ["Reactor Operations", "Nuclear Materials", "Safety Oversight"], "training": ["Radiation Safety"], "min_training": 1}}
+{"title": "Emergency Shutdown Procedures", "attributes": {"departments": ["Reactor Operations", "Nuclear Materials", "Safety Oversight"], "training": ["Core Procedures", "Radiation Safety"], "min_training": 2}}
+{"title": "Waste Storage Protocol", "attributes": {"departments": ["Nuclear Materials"], "training": ["Radiation Safety", "Fuel Handling"], "min_training": 2}}

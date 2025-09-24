@@ -1,0 +1,9 @@
+{
+  "access_matrix": {
+    "Reactor Startup Protocol": ["Fritz"],
+    "Fuel Rod Handling Guidelines": ["Gork"],
+    "Radiation Safety Manual": ["Fritz", "Booger", "Gork"],
+    "Emergency Shutdown Procedures": ["Fritz"], 
+    "Waste Storage Protocol": ["Gork"]
+  }
+}
