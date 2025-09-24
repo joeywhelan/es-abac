@@ -1,4 +1,4 @@
-This is a continuation of the search access control topic I discussed [here](https://www.linkedin.com/pulse/role-based-access-control-elasticsearch-joey-whelan-ycznc/).  That article was focused implementation of Role-based Access Control (RBAC) in Elasticsearch.  This article delves into document-level Attribute-based Access Control (ABAC).  In this model, users and documents possess attributes.  For user to access a document, they must have the requisite attributes for that document.  This can be implemented in Elasticsearch via User and Document meta-data and a role that implements document control via a query template.
+This is a continuation of the search access control topic I discussed [here](https://www.linkedin.com/pulse/role-based-access-control-elasticsearch-joey-whelan-ycznc/).  That article focused on the implementation of Role-based Access Control (RBAC) in Elasticsearch.  This article delves into document-level Attribute-based Access Control (ABAC).  In this model, users and documents possess attributes.  For a user to access a document, they must have the requisite attributes for that document.  This can be implemented in Elasticsearch via User and Document metadata and a role that implements document control via a query template.
 
 # Architecture
 
@@ -13,7 +13,7 @@ The diagram below depicts how ABAC is implemented.  As discussed above, this is 
 ![security model](security-model.jpeg)
 
 # Scenario
-This demo is around a fictional nuclear reactor scenario.  There are safety and technical documents associated with the reactor that have varied departmental and training requirements for access.  There are personnel that work at the reactor that belong to departments and have completed various training programs that would entitle them access to these documents.
+This demo is around a fictional nuclear reactor scenario.  There are safety and technical documents associated with the reactor that have varied departmental and training requirements for access.  There are personnel who work at the reactor who belong to departments and have completed various training programs that would entitle them to access these documents.
 
 ## Documents
 The table below depicts the documents and their associated attributes.
@@ -103,7 +103,7 @@ I created a small (five records) dataset for the documents and their attributes.
     }
 }
 ```
-Mapping for this data set below.
+Mapping for this data set is below.
 
 ```python
 INDEX_NAME = "nuke_docs"
@@ -143,7 +143,7 @@ result = bulk(client=es, index=INDEX_NAME, actions=gen_data())
 The API call below creates a security role that includes a query template.  That template is executed every time a user with that role attempts to access a document.  The points below break down what is happening in that template:
 - This is a filter query with two components: a [terms_set](https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-terms-set-query) and [terms](https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-terms-query) predicate.
 - The terms_set query is doing an intersection of a given document's training requirements against the user's training.  The minimum required cardinality of the resulting set is stored in the document as 'min_training'.
-- The terms query check to see if the user's departments match at least ONE of the document's required departments.
+- The terms query checks to see if the user's departments match at least ONE of the document's required departments.
 
 ```python
 es.security.put_role(name="abac_role", body={
@@ -153,7 +153,7 @@ es.security.put_role(name="abac_role", body={
             "privileges": ["read"],
             "query": {
                 "template": {
-                    "source": "{\"bool\": {\"filter\": [{\"terms_set\": {\"attributes.training\": {\"terms\": {{#toJson}}_user.metadata.attributes.training{{/toJson}},\"minimum_should_match_field\": \"attributes.min_training\"}}}, {\"terms\": {\"attributes.departments\": {{#toJson}}_user.metadata.attributes.departments{{/toJson}}}}]}}"
+                    "source": "{\"bool\": {\"filter\": [{\"terms_set\": {\"attributes.training\": {\"terms\": {{#toJson}}_user.metadata.attributes.training{{/toJson}},\"minimum_should_match_field\": \"attributes.min_training\"}}}, {\"terms\": {\"attributes.departments\": {{checks#toJson}}_user.metadata.attributes.departments{{/toJson}}}}]}}"
                 }
             
             }
@@ -161,7 +161,7 @@ es.security.put_role(name="abac_role", body={
 })
 ```
 ## Create the Users
-This code creates each of the three users with their attributes (department, training) stored as meta-data in their user object.
+This code creates each of the three users with their attributes (department, training) stored as metadata in their user object.
 ```python
 es.security.put_user(
     username=booger_creds["username"],
@@ -241,7 +241,7 @@ search_with_user(es, INDEX_NAME, gork_creds, "Gork's Docs")
 ```
 ### Gork's Docs
 ```json
-[
+[checks
   {
     "title": "Fuel Rod Handling Guidelines"
   },
