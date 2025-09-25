@@ -244,7 +244,7 @@ search_with_user(es, INDEX_NAME, gork_creds, "Gork's Docs")
 ```
 ### Gork's Docs
 ```json
-[checks
+[
   {
     "title": "Fuel Rod Handling Guidelines"
   },
