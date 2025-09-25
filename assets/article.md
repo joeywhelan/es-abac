@@ -1,3 +1,6 @@
+![cover image](cover.png)
+
+# Attribute-based Access Control with Elasticsearch
 This is a continuation of the search access control topic I discussed [here](https://www.linkedin.com/pulse/role-based-access-control-elasticsearch-joey-whelan-ycznc/).  That article focused on the implementation of Role-based Access Control (RBAC) in Elasticsearch.  This article delves into document-level Attribute-based Access Control (ABAC).  In this model, users and documents possess attributes.  For a user to access a document, they must have the requisite attributes for that document.  This can be implemented in Elasticsearch via User and Document metadata and a role that implements document control via a query template.
 
 # Architecture
